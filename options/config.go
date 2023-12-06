@@ -6,15 +6,15 @@ import (
 	"time"
 )
 
-type requestConfig struct {
-	QueryParams *url.Values
+type RequestConfig struct {
+	QueryParams url.Values
 }
 
-type Option func(*requestConfig) error
+type Option func(*RequestConfig) error
 
-func NewRequestConfig(opts ...Option) (*requestConfig, error) {
-	cfg := &requestConfig{
-		QueryParams: &url.Values{},
+func NewRequestConfig(opts ...Option) (*RequestConfig, error) {
+	cfg := &RequestConfig{
+		QueryParams: url.Values{},
 	}
 
 	for _, opt := range opts {
@@ -27,7 +27,7 @@ func NewRequestConfig(opts ...Option) (*requestConfig, error) {
 }
 
 func WithIds(ids []int) Option {
-	return func(cfg *requestConfig) error {
+	return func(cfg *RequestConfig) error {
 		for _, id := range ids {
 			cfg.QueryParams.Add("ids", strconv.Itoa(id))
 		}
@@ -36,7 +36,7 @@ func WithIds(ids []int) Option {
 }
 
 func WithUpdatedAfter(t time.Time) Option {
-	return func(cfg *requestConfig) error {
+	return func(cfg *RequestConfig) error {
 		cfg.QueryParams.Set("updated_after", t.Format(time.RFC3339))
 		return nil
 	}
