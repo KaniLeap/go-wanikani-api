@@ -6,13 +6,13 @@ import (
 
 type Shared struct {
 	Object    string    `json:"object"`
-	Url       string    `json:"url"`
+	URL       string    `json:"url"`
 	UpdatedAt time.Time `json:"data_updated_at"`
 }
 
 type Page struct {
-	NextUrl     string `json:"next_url"`
-	PreviousUrl string `json:"previous_url"`
+	NextURL     string `json:"next_url"`
+	PreviousURL string `json:"previous_url"`
 	PerPage     int    `json:"per_page"`
 }
 
