@@ -8,6 +8,7 @@ import (
 
 type RequestConfig struct {
 	QueryParams url.Values
+	Payload     interface{}
 }
 
 type Option func(*RequestConfig) error
@@ -38,6 +39,13 @@ func WithIds(ids []int) Option {
 func WithUpdatedAfter(t time.Time) Option {
 	return func(cfg *RequestConfig) error {
 		cfg.QueryParams.Set("updated_after", t.Format(time.RFC3339))
+		return nil
+	}
+}
+
+func WithData(data interface{}) Option {
+	return func(cfg *RequestConfig) error {
+		cfg.Payload = data
 		return nil
 	}
 }
