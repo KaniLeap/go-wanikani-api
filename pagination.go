@@ -1,26 +1,38 @@
 package wk
 
 import (
-	"github.com/KaniLeap/go-wanikani-api/data"
+	"errors"
+	"github.com/carlmjohnson/requests"
 )
 
-type pagination[T any] struct {
-	Data   data.Collection[T]
-	Client *Client
+type Paginate[T any] struct {
+	Data    Collection[T]
+	request *requests.Builder
 }
 
-func (p *pagination[T]) Next() (*pagination[T], error) {
-	if p.Data.Pages.NextURL == "" {
-		return nil, nil
+func (p *Paginate[T]) fromURL(url string) error {
+	if url == "" {
+		return errors.New("url is empty")
 	}
 
-	return paginateFromURL[T](p.Client, p.Data.Pages.NextURL)
+	var data Collection[T]
+	err := p.request.
+		BaseURL(url).
+		ToJSON(&data).
+		Fetch(ctx)
+	if err != nil {
+		return err
+	}
+
+	p.Data = data
+
+	return nil
 }
 
-func (p *pagination[T]) Previous() (*pagination[T], error) {
-	if p.Data.Pages.PreviousURL == "" {
-		return nil, nil
-	}
+func (p *Paginate[T]) Next() error {
+	return p.fromURL(p.Data.Pages.NextURL)
+}
 
-	return paginateFromURL[T](p.Client, p.Data.Pages.PreviousURL)
+func (p *Paginate[T]) Previous() error {
+	return p.fromURL(p.Data.Pages.PreviousURL)
 }

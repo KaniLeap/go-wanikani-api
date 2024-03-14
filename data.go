@@ -1,4 +1,4 @@
-package data
+package wk
 
 import (
 	"time"
@@ -10,16 +10,14 @@ type Shared struct {
 	UpdatedAt time.Time `json:"data_updated_at"`
 }
 
-type Page struct {
-	NextURL     string `json:"next_url"`
-	PreviousURL string `json:"previous_url"`
-	PerPage     int    `json:"per_page"`
-}
-
 type CollectionBase struct {
 	Shared
-	Pages Page `json:"pages"`
-	Count int  `json:"total_count"`
+	Pages struct {
+		NextURL     string `json:"next_url"`
+		PreviousURL string `json:"previous_url"`
+		PerPage     int    `json:"per_page"`
+	} `json:"pages"`
+	Count int `json:"total_count"`
 }
 
 type ResourceBase struct {
