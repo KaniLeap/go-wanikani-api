@@ -6,8 +6,8 @@ import (
 )
 
 type Assignment struct {
-	Type          string    `json:"subject_type"`
-	Id            int       `json:"subject_id"`
+	SubjectType   string    `json:"subject_type"`
+	SubjectId     int       `json:"subject_id"`
 	Level         int       `json:"level"`
 	Stage         int       `json:"srs_stage"`
 	UnlockedAt    time.Time `json:"unlocked_at"`
@@ -32,73 +32,63 @@ func WithAvailableBefore(t time.Time) Option {
 	}
 }
 
-func WithBurned() Option {
+func WithBurned(burned bool) Option {
 	return func(cfg *options) error {
-		cfg.params["burned"] = append(cfg.params["burned"], "true")
+		cfg.params["burned"] = []string{strconv.FormatBool(burned)}
 		return nil
 	}
 }
 
-func WithHidden() Option {
+func WithAvailableLessons(available bool) Option {
 	return func(cfg *options) error {
-		cfg.params["hidden"] = append(cfg.params["hidden"], "true")
+		cfg.params["available_lessons"] = []string{strconv.FormatBool(available)}
 		return nil
 	}
 }
 
-func WithAvailableLessons() Option {
+func WithAvailableReviews(available bool) Option {
 	return func(cfg *options) error {
-		cfg.params["available_lessons"] = append(cfg.params["available_lessons"], "true")
-		return nil
-	}
-}
-
-func WithAvailableReviews() Option {
-	return func(cfg *options) error {
-		cfg.params["available_reviews"] = append(cfg.params["available_reviews"], "true")
-		return nil
-	}
-}
-
-func WithLevels(levels []int) Option {
-	return func(cfg *options) error {
-		for _, level := range levels {
-			cfg.params["levels"] = append(cfg.params["levels"], strconv.Itoa(level))
-		}
+		cfg.params["available_reviews"] = []string{strconv.FormatBool(available)}
 		return nil
 	}
 }
 
 func WithStage(stages []int) Option {
 	return func(cfg *options) error {
-		for _, s := range stages {
-			cfg.params["srs_stages"] = append(cfg.params["srs_stages"], strconv.Itoa(s))
+		strStages := make([]string, len(stages))
+		for i, s := range stages {
+			strStages[i] = strconv.Itoa(s)
 		}
+		cfg.params["srs_stages"] = strStages
 		return nil
 	}
 }
 
 func WithSubjectIDs(ids []int) Option {
 	return func(cfg *options) error {
-		for _, id := range ids {
-			cfg.params["subject_ids"] = append(cfg.params["subject_ids"], strconv.Itoa(id))
+		strId := make([]string, len(ids))
+		for i, id := range ids {
+			strId[i] = strconv.Itoa(id)
 		}
+		cfg.params["subject_ids"] = strId
 		return nil
 	}
 }
 
 func WithSubjectTypes(types []string) Option {
 	return func(cfg *options) error {
-		for _, t := range types {
-			cfg.params["subject_types"] = append(cfg.params["subject_types"], t)
+		strTypes := make([]string, len(types))
+		for i, t := range types {
+			strTypes[i] = t
 		}
+		cfg.params["subject_types"] = strTypes
 		return nil
 	}
 }
 
-func WithUnlocked() Option {
+func WithUnlocked(unlocked bool) Option {
 	return func(cfg *options) error {
-		cfg.params["unlocked"] = append(cfg.params["unlocked"], "true")
+		cfg.params["unlocked"] = []string{strconv.FormatBool(unlocked)}
 		return nil
 	}
 }

@@ -13,16 +13,18 @@ type Option func(*options) error
 
 func WithIds(ids []int) Option {
 	return func(cfg *options) error {
-		for _, id := range ids {
-			cfg.params["ids"] = append(cfg.params["ids"], strconv.Itoa(id))
+		strId := make([]string, len(ids))
+		for i, id := range ids {
+			strId[i] = strconv.Itoa(id)
 		}
+		cfg.params["ids"] = strId
 		return nil
 	}
 }
 
 func WithUpdatedAfter(t time.Time) Option {
 	return func(cfg *options) error {
-		cfg.params["updated_after"] = append(cfg.params["updated_after"], t.Format(time.RFC3339))
+		cfg.params["updated_after"] = []string{t.Format(time.RFC3339)}
 		return nil
 	}
 }
