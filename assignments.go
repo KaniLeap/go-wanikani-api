@@ -111,6 +111,6 @@ func (c *Client) GetAssignment(id int, opts ...Option) (*Resource[Assignment], e
 	return resource[Assignment](c, "assignments/"+strconv.Itoa(id), "GET", nil, opts...)
 }
 
-func (c *Client) StartAssignment(payload any, id int, opts ...Option) (*Resource[Assignment], error) {
+func (c *Client) StartAssignment(payload Assignments, id int, opts ...Option) (*Resource[Assignment], error) {
 	return resource[Assignment](c, "assignments/"+strconv.Itoa(id)+"/start", "PUT", payload, opts...)
 }
