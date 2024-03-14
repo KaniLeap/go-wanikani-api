@@ -7,15 +7,10 @@ type Assignments struct {
 }
 
 type Reviews struct {
-	Reviews struct {
-		AssignmentId      int       `json:"assignment_id"`
-		IncorrectMeanings int       `json:"incorrect_meaning_answers"`
-		IncorrectReadings int       `json:"incorrect_reading_answers"`
-		CreatedAt         time.Time `json:"created_at"`
-	} `json:"reviews"`
+	Review ReviewBase `json:"review"`
 }
 
-type StudyMaterial struct {
+type StudyMaterials struct {
 	StudyMaterial struct {
 		SubjectId       int      `json:"subject_id"`
 		MeaningNote     string   `json:"meaning_note"`
@@ -24,7 +19,7 @@ type StudyMaterial struct {
 	} `json:"study_material"`
 }
 
-type User struct {
+type Users struct {
 	User struct {
 		Preferences struct {
 			LessonsAutoplayAudio       bool   `json:"lessons_autoplay_audio"`
