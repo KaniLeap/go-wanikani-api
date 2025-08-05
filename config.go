@@ -11,7 +11,7 @@ type options struct {
 
 type Option func(*options) error
 
-func WithIds(ids []int) Option {
+func WithIDs(ids ...int) Option {
 	return func(cfg *options) error {
 		strId := make([]string, len(ids))
 		for i, id := range ids {

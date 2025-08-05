@@ -54,7 +54,7 @@ func WithAvailableReviews(available bool) Option {
 	}
 }
 
-func WithStage(stages []int) Option {
+func WithStages(stages ...int) Option {
 	return func(cfg *options) error {
 		strStages := make([]string, len(stages))
 		for i, s := range stages {
