@@ -2,26 +2,42 @@ package wk
 
 import (
 	"context"
-	"github.com/carlmjohnson/requests"
 	"net/http"
+	"time"
+
+	"github.com/carlmjohnson/requests"
 )
 
 type Client struct {
-	client *http.Client
-	token  string
+	client  *http.Client
+	token   string
+	baseURL string
+	ua      string
 }
 
-
 func NewClient(token string) *Client {
+	return NewClientWithHTTP(nil, token)
+}
+
+func NewClientWithHTTP(hc *http.Client, token string) *Client {
+	if hc == nil {
+		hc = &http.Client{Timeout: 10 * time.Second}
+	}
 	return &Client{
-		token: token,
+		client:  hc,
+		token:   token,
+		baseURL: "https://api.wanikani.com/v2/",
+		ua:      "go-wanikani-api (+https://github.com/KaniLeap/go-wanikani-api)",
 	}
 }
 
 func (c *Client) getRequest() *requests.Builder {
 	return requests.
-		URL("https://api.wanikani.com/v2/").
-		Bearer(c.token)
+		URL(c.baseURL).
+		Client(c.client).
+		Bearer(c.token).
+		Header("User-Agent", c.ua).
+		Header("Accept", "application/json")
 }
 
 func createRequest[T any](c *Client, ctx context.Context, path, method string, payload any, opts ...Option) (*T, *requests.Builder, error) {
@@ -38,12 +54,21 @@ func createRequest[T any](c *Client, ctx context.Context, path, method string, p
 	var result T
 	req := c.getRequest().
 		Path(path).
-		BodyJSON(payload).
 		Params(cfg.params).
 		Method(method).
 		ToJSON(&result)
+	if method != http.MethodGet && payload != nil {
+		req = req.BodyJSON(payload)
+	}
 
-	err := req.Fetch(ctx)
+	var apiErr struct {
+		Error string `json:"error"`
+		Code  int    `json:"code"`
+	}
+	err := req.
+		CheckStatus(200, 299).
+		ErrorJSON(&apiErr).
+		Fetch(ctx)
 	if err != nil {
 		return nil, nil, err
 	}
