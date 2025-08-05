@@ -26,5 +26,5 @@ func (c *Client) GetReview(ctx context.Context, id int, opts ...Option) (*Resour
 }
 
 func (c *Client) CreateReview(ctx context.Context, payload Reviews, opts ...Option) (*Resource[Review], error) {
-	return resource[Review](c, ctx, "reviews/", "POST", payload, opts...)
+	return resource[Review](c, ctx, "reviews", "POST", payload, opts...)
 }
