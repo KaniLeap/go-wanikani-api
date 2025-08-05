@@ -12,6 +12,11 @@ type Paginate[T any] struct {
 	ctx     context.Context
 }
 
+var (
+	ErrNoNextPage     = errors.New("no next page")
+	ErrNoPreviousPage = errors.New("no previous page")
+)
+
 func (p *Paginate[T]) fromURL(url string) error {
 	if url == "" {
 		return errors.New("url is empty")
@@ -31,10 +36,24 @@ func (p *Paginate[T]) fromURL(url string) error {
 	return nil
 }
 
+func (p *Paginate[T]) HasNext() bool {
+	return p.Data.Pages.NextURL != ""
+}
+
+func (p *Paginate[T]) HasPrevious() bool {
+	return p.Data.Pages.PreviousURL != ""
+}
+
 func (p *Paginate[T]) Next() error {
+	if !p.HasNext() {
+		return ErrNoNextPage
+	}
 	return p.fromURL(p.Data.Pages.NextURL)
 }
 
 func (p *Paginate[T]) Previous() error {
+	if !p.HasPrevious() {
+		return ErrNoPreviousPage
+	}
 	return p.fromURL(p.Data.Pages.PreviousURL)
 }
