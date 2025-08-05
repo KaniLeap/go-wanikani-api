@@ -12,12 +12,12 @@ type Subject struct {
 		Primary        bool   `json:"primary"`
 		AcceptedAnswer bool   `json:"accepted_answer"`
 	}
-	Characters      string    `json:"characters"`
-	CreatedAt       time.Time `json:"created_at"`
-	DocumentURL     string    `json:"document_url"`
-	HiddenAt        time.Time `json:"hidden_at"`
-	Level           int       `json:"level"`
-	MeaningMnemonic string    `json:"meaning_mnemonic"`
+	Characters      string     `json:"characters"`
+	CreatedAt       time.Time  `json:"created_at"`
+	DocumentURL     string     `json:"document_url"`
+	HiddenAt        *time.Time `json:"hidden_at"`
+	Level           int        `json:"level"`
+	MeaningMnemonic string     `json:"meaning_mnemonic"`
 	Meanings        []struct {
 		Meaning string `json:"meaning"`
 		Type    string `json:"type"`

@@ -7,16 +7,16 @@ import (
 )
 
 type Assignment struct {
-	SubjectType   string    `json:"subject_type"`
-	SubjectId     int       `json:"subject_id"`
-	Level         int       `json:"level"`
-	Stage         int       `json:"srs_stage"`
-	UnlockedAt    time.Time `json:"unlocked_at"`
-	StartedAt     time.Time `json:"started_at"`
-	PassedAt      time.Time `json:"passed_at"`
-	BurnedAt      time.Time `json:"burned_at"`
-	AvailableAt   time.Time `json:"available_at"`
-	ResurrectedAt time.Time `json:"resurrected_at"`
+	SubjectType   string     `json:"subject_type"`
+	SubjectId     int        `json:"subject_id"`
+	Level         int        `json:"level"`
+	Stage         int        `json:"srs_stage"`
+	UnlockedAt    *time.Time `json:"unlocked_at"`
+	StartedAt     *time.Time `json:"started_at"`
+	PassedAt      *time.Time `json:"passed_at"`
+	BurnedAt      *time.Time `json:"burned_at"`
+	AvailableAt   *time.Time `json:"available_at"`
+	ResurrectedAt *time.Time `json:"resurrected_at"`
 }
 
 func WithAvailableAfter(t time.Time) Option {
