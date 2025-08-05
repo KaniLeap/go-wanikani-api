@@ -1,4 +1,4 @@
-github.com/carlmjohnson/requests v0.23.6-0.20240224022128-4d62ef5bad96 h1:kPAVmCxK6NP9RuHwHOnXfvRTixDWlUtz1dZR5Zr3OF8=
-github.com/carlmjohnson/requests v0.23.6-0.20240224022128-4d62ef5bad96/go.mod h1:S/IQMMxAFBuEWUaNxMcqK7PkTefLpjppJq7m8TfEwHE=
-golang.org/x/net v0.17.0 h1:pVaXccu2ozPjCXewfr1S7xza/zcXTity9cCdXQYSjIM=
-golang.org/x/net v0.17.0/go.mod h1:NxSsAGuq816PNPmqtQdLE42eU2Fs7NoRIZrHJAlaCOE=
+github.com/carlmjohnson/requests v0.24.3 h1:LYcM/jVIVPkioigMjEAnBACXl2vb42TVqiC8EYNoaXQ=
+github.com/carlmjohnson/requests v0.24.3/go.mod h1:duYA/jDnyZ6f3xbcF5PpZ9N8clgopubP2nK5i6MVMhU=
+golang.org/x/net v0.42.0 h1:jzkYrhi3YQWD6MLBJcsklgQsoAcw89EcZbJw8Z614hs=
+golang.org/x/net v0.42.0/go.mod h1:FF1RA5d3u7nAYA4z2TkclSCKh68eSXtiFwcWQpPXdt8=
