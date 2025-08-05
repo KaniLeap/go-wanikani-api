@@ -11,7 +11,6 @@ type Client struct {
 	token  string
 }
 
-var ctx = context.Background()
 
 func NewClient(token string) *Client {
 	return &Client{
@@ -25,7 +24,7 @@ func (c *Client) getRequest() *requests.Builder {
 		Bearer(c.token)
 }
 
-func createRequest[T any](c *Client, path, method string, payload any, opts ...Option) (*T, *requests.Builder, error) {
+func createRequest[T any](c *Client, ctx context.Context, path, method string, payload any, opts ...Option) (*T, *requests.Builder, error) {
 	cfg := &options{
 		params: make(map[string][]string),
 	}
@@ -52,13 +51,13 @@ func createRequest[T any](c *Client, path, method string, payload any, opts ...O
 	return &result, req, nil
 }
 
-func resource[T any](c *Client, path, method string, payload any, opts ...Option) (*Resource[T], error) {
-	result, _, err := createRequest[Resource[T]](c, path, method, payload, opts...)
+func resource[T any](c *Client, ctx context.Context, path, method string, payload any, opts ...Option) (*Resource[T], error) {
+	result, _, err := createRequest[Resource[T]](c, ctx, path, method, payload, opts...)
 	return result, err
 }
 
-func paginate[T any](c *Client, path string, opts ...Option) (*Paginate[T], error) {
-	response, req, err := createRequest[Collection[T]](c, path, "GET", nil, opts...)
+func paginate[T any](c *Client, ctx context.Context, path string, opts ...Option) (*Paginate[T], error) {
+	response, req, err := createRequest[Collection[T]](c, ctx, path, "GET", nil, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -66,5 +65,6 @@ func paginate[T any](c *Client, path string, opts ...Option) (*Paginate[T], erro
 	return &Paginate[T]{
 		Data:    *response,
 		request: req,
+		ctx:     ctx,
 	}, nil
 }

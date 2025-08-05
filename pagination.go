@@ -1,6 +1,7 @@
 package wk
 
 import (
+	"context"
 	"errors"
 	"github.com/carlmjohnson/requests"
 )
@@ -8,6 +9,7 @@ import (
 type Paginate[T any] struct {
 	Data    Collection[T]
 	request *requests.Builder
+	ctx     context.Context
 }
 
 func (p *Paginate[T]) fromURL(url string) error {
@@ -19,7 +21,7 @@ func (p *Paginate[T]) fromURL(url string) error {
 	err := p.request.
 		BaseURL(url).
 		ToJSON(&data).
-		Fetch(ctx)
+		Fetch(p.ctx)
 	if err != nil {
 		return err
 	}

@@ -1,6 +1,7 @@
 package wk
 
 import (
+	"context"
 	"strconv"
 	"time"
 )
@@ -93,14 +94,14 @@ func WithUnlocked(unlocked bool) Option {
 	}
 }
 
-func (c *Client) GetAssignments(opts ...Option) (*Paginate[Assignment], error) {
-	return paginate[Assignment](c, "assignments", opts...)
+func (c *Client) GetAssignments(ctx context.Context, opts ...Option) (*Paginate[Assignment], error) {
+	return paginate[Assignment](c, ctx, "assignments", opts...)
 }
 
-func (c *Client) GetAssignment(id int, opts ...Option) (*Resource[Assignment], error) {
-	return resource[Assignment](c, "assignments/"+strconv.Itoa(id), "GET", nil, opts...)
+func (c *Client) GetAssignment(ctx context.Context, id int, opts ...Option) (*Resource[Assignment], error) {
+	return resource[Assignment](c, ctx, "assignments/"+strconv.Itoa(id), "GET", nil, opts...)
 }
 
-func (c *Client) StartAssignment(payload Assignments, id int, opts ...Option) (*Resource[Assignment], error) {
-	return resource[Assignment](c, "assignments/"+strconv.Itoa(id)+"/start", "PUT", payload, opts...)
+func (c *Client) StartAssignment(ctx context.Context, payload Assignments, id int, opts ...Option) (*Resource[Assignment], error) {
+	return resource[Assignment](c, ctx, "assignments/"+strconv.Itoa(id)+"/start", "PUT", payload, opts...)
 }

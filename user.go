@@ -1,6 +1,9 @@
 package wk
 
-import "time"
+import (
+	"context"
+	"time"
+)
 
 type User struct {
 	UserId                   string    `json:"id"`
@@ -18,10 +21,10 @@ type User struct {
 	Preferences Preferences `json:"preferences"`
 }
 
-func (c *Client) GetUser(opts ...Option) (*Resource[User], error) {
-	return resource[User](c, "user", "GET", nil, opts...)
+func (c *Client) GetUser(ctx context.Context, opts ...Option) (*Resource[User], error) {
+	return resource[User](c, ctx, "user", "GET", nil, opts...)
 }
 
-func (c *Client) UpdateUser(payload Users, opts ...Option) (*Resource[User], error) {
-	return resource[User](c, "user", "PUT", payload, opts...)
+func (c *Client) UpdateUser(ctx context.Context, payload Users, opts ...Option) (*Resource[User], error) {
+	return resource[User](c, ctx, "user", "PUT", payload, opts...)
 }

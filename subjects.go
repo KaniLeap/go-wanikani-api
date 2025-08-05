@@ -1,6 +1,7 @@
 package wk
 
 import (
+	"context"
 	"strconv"
 	"time"
 )
@@ -57,10 +58,10 @@ func WithHidden(hidden bool) Option {
 	}
 }
 
-func (c *Client) GetSubjects(opts ...Option) (*Paginate[Subject], error) {
-	return paginate[Subject](c, "subjects", opts...)
+func (c *Client) GetSubjects(ctx context.Context, opts ...Option) (*Paginate[Subject], error) {
+	return paginate[Subject](c, ctx, "subjects", opts...)
 }
 
-func (c *Client) GetSubject(id int, opts ...Option) (*Resource[Subject], error) {
-	return resource[Subject](c, "subjects/"+strconv.Itoa(id), "GET", nil, opts...)
+func (c *Client) GetSubject(ctx context.Context, id int, opts ...Option) (*Resource[Subject], error) {
+	return resource[Subject](c, ctx, "subjects/"+strconv.Itoa(id), "GET", nil, opts...)
 }

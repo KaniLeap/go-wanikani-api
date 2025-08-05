@@ -1,6 +1,7 @@
 package wk
 
 import (
+	"context"
 	"strconv"
 	"time"
 )
@@ -20,10 +21,10 @@ type Review struct {
 	SRSId       int `json:"spaced_repetition_system_id"`
 }
 
-func (c *Client) GetReview(id int, opts ...Option) (*Resource[Review], error) {
-	return resource[Review](c, "reviews/"+strconv.Itoa(id), "GET", nil, opts...)
+func (c *Client) GetReview(ctx context.Context, id int, opts ...Option) (*Resource[Review], error) {
+	return resource[Review](c, ctx, "reviews/"+strconv.Itoa(id), "GET", nil, opts...)
 }
 
-func (c *Client) CreateReview(payload Reviews, opts ...Option) (*Resource[Review], error) {
-	return resource[Review](c, "reviews/", "POST", payload, opts...)
+func (c *Client) CreateReview(ctx context.Context, payload Reviews, opts ...Option) (*Resource[Review], error) {
+	return resource[Review](c, ctx, "reviews/", "POST", payload, opts...)
 }
