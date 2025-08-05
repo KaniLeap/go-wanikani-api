@@ -79,9 +79,7 @@ func WithSubjectIDs(ids []int) Option {
 func WithSubjectTypes(types []string) Option {
 	return func(cfg *options) error {
 		strTypes := make([]string, len(types))
-		for i, t := range types {
-			strTypes[i] = t
-		}
+		copy(strTypes, types)
 		cfg.params["subject_types"] = strTypes
 		return nil
 	}
