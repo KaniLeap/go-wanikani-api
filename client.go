@@ -2,7 +2,9 @@ package wk
 
 import (
 	"context"
+	"errors"
 	"net/http"
+	"strconv"
 	"time"
 
 	"github.com/carlmjohnson/requests"
@@ -65,11 +67,48 @@ func createRequest[T any](c *Client, ctx context.Context, path, method string, p
 		Error string `json:"error"`
 		Code  int    `json:"code"`
 	}
-	err := req.
-		CheckStatus(200, 299).
-		ErrorJSON(&apiErr).
-		Fetch(ctx)
-	if err != nil {
+
+	attempts := 0
+	for {
+		var headers http.Header
+		err := req.
+			CheckStatus(200, 299).
+			CopyHeaders(headers).
+			ErrorJSON(&apiErr).
+			Fetch(ctx)
+		if err == nil {
+			break
+		}
+		var se *requests.ResponseError
+		if errors.As(err, &se) {
+			reset := headers.Get("RateLimit-Reset")
+			if reset != "" {
+				if sec, perr := strconv.ParseInt(reset, 10, 64); perr == nil {
+					wait := time.Until(time.Unix(sec, 0))
+					if wait > 0 {
+						timer := time.NewTimer(wait)
+						select {
+						case <-ctx.Done():
+							if !timer.Stop() {
+								<-timer.C
+							}
+							return nil, nil, ctx.Err()
+						case <-timer.C:
+						}
+					}
+				}
+			}
+			if se.StatusCode == http.StatusTooManyRequests {
+				continue
+			}
+			if se.StatusCode >= 500 && se.StatusCode <= 599 {
+				if attempts < 2 {
+					attempts++
+					time.Sleep(time.Duration(attempts) * 500 * time.Millisecond)
+					continue
+				}
+			}
+		}
 		return nil, nil, err
 	}
 
