@@ -23,7 +23,7 @@ type Subject struct {
 		Type    string `json:"type"`
 	}
 	Slug  string `json:"slug"`
-	SRSId int    `json:"spaced_repetition_system_id"`
+	SRSID int    `json:"spaced_repetition_system_id"`
 }
 
 func WithTypes(types []string) Option {

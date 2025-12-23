@@ -22,7 +22,7 @@ type CollectionBase struct {
 
 type ResourceBase struct {
 	Shared
-	Id int `json:"id"`
+	ID int `json:"id"`
 }
 
 type Resource[T any] struct {

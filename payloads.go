@@ -12,7 +12,7 @@ type Reviews struct {
 
 type StudyMaterials struct {
 	StudyMaterial struct {
-		SubjectId       int      `json:"subject_id"`
+		SubjectID       int      `json:"subject_id"`
 		MeaningNote     string   `json:"meaning_note"`
 		ReadingNote     string   `json:"reading_note"`
 		MeaningSynonyms []string `json:"meaning_synonyms"`

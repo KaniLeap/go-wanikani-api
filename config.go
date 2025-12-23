@@ -13,11 +13,11 @@ type Option func(*options) error
 
 func WithIDs(ids ...int) Option {
 	return func(cfg *options) error {
-		strId := make([]string, len(ids))
+		strIDs := make([]string, len(ids))
 		for i, id := range ids {
-			strId[i] = strconv.Itoa(id)
+			strIDs[i] = strconv.Itoa(id)
 		}
-		cfg.params["ids"] = strId
+		cfg.params["ids"] = strIDs
 		return nil
 	}
 }

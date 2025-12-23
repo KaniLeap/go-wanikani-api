@@ -8,7 +8,7 @@ import (
 
 type Assignment struct {
 	SubjectType   string     `json:"subject_type"`
-	SubjectId     int        `json:"subject_id"`
+	SubjectID     int        `json:"subject_id"`
 	Level         int        `json:"level"`
 	Stage         int        `json:"srs_stage"`
 	UnlockedAt    *time.Time `json:"unlocked_at"`
@@ -67,11 +67,11 @@ func WithStages(stages ...int) Option {
 
 func WithSubjectIDs(ids []int) Option {
 	return func(cfg *options) error {
-		strId := make([]string, len(ids))
+		strIDs := make([]string, len(ids))
 		for i, id := range ids {
-			strId[i] = strconv.Itoa(id)
+			strIDs[i] = strconv.Itoa(id)
 		}
-		cfg.params["subject_ids"] = strId
+		cfg.params["subject_ids"] = strIDs
 		return nil
 	}
 }

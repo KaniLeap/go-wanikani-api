@@ -15,11 +15,12 @@ type Paginate[T any] struct {
 var (
 	ErrNoNextPage     = errors.New("no next page")
 	ErrNoPreviousPage = errors.New("no previous page")
+	ErrEmptyURL       = errors.New("url is empty")
 )
 
 func (p *Paginate[T]) fromURL(url string) error {
 	if url == "" {
-		return errors.New("url is empty")
+		return ErrEmptyURL
 	}
 
 	var data Collection[T]
