@@ -30,12 +30,7 @@ type Resource[T any] struct {
 	Data T `json:"data"`
 }
 
-type Item[T any] struct {
-	ResourceBase
-	Data T `json:"data"`
-}
-
 type Collection[T any] struct {
 	CollectionBase
-	Data []Item[T] `json:"data"`
+	Data []Resource[T] `json:"data"`
 }

@@ -70,7 +70,7 @@ func createRequest[T any](c *Client, ctx context.Context, path, method string, p
 
 	attempts := 0
 	for {
-		var headers http.Header
+		headers := make(http.Header)
 		err := req.
 			CheckStatus(200, 299).
 			CopyHeaders(headers).

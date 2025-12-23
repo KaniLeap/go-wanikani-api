@@ -6,10 +6,10 @@ import (
 )
 
 type User struct {
-	UserId                   string    `json:"id"`
-	Name                     string    `json:"username"`
-	Level                    int       `json:"level"`
-	ProfileURL               string    `json:"profile_url"`
+	Id                       string     `json:"id"`
+	Name                     string     `json:"username"`
+	Level                    int        `json:"level"`
+	ProfileURL               string     `json:"profile_url"`
 	StartedAt                time.Time  `json:"started_at"`
 	CurrentVacationStartedAt *time.Time `json:"current_vacation_started_at"`
 	Subscription             struct {
